@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="citra_primary">#FFD600</color>            <!-- Amarillo vibrante principal -->
+    <color name="citra_onPrimary">#000000</color>          <!-- Texto sobre amarillo (Negro para contraste perfecto) -->
+    <color name="citra_primaryContainer">#FFFDE7</color>   <!-- Contenedor amarillo muy suave -->
+    <color name="citra_onPrimaryContainer">#1A1A00</color>
+    
+    <color name="citra_secondary">#757575</color>          <!-- Gris neutro secundario -->
+    <color name="citra_onSecondary">#FFFFFF</color>
+    <color name="citra_secondaryContainer">#F5F5F5</color>
+    <color name="citra_onSecondaryContainer">#212121</color>
+    
+    <color name="citra_tertiary">#FFC107</color>           <!-- Acento amarillo cálido -->
+    <color name="citra_onTertiary">#000000</color>
+    <color name="citra_tertiaryContainer">#FFF8E1</color>
+    <color name="citra_onTertiaryContainer">#2C2200</color>
+    
+    <color name="citra_error">#D32F2F</color>
+    <color name="citra_errorContainer">#FFCDD2</color>
+    <color name="citra_onError">#FFFFFF</color>
+    <color name="citra_onErrorContainer">#B71C1C</color>
+    
+    <!-- Fondos limpios basados en blanco y gris sutil -->
+    <color name="citra_background">#FFFFFF</color>         <!-- Fondo principal Blanco -->
+    <color name="citra_onBackground">#121212</color>       <!-- Texto principal oscuro -->
+    <color name="citra_surface">#FFFFFF</color>            <!-- Superficie Blanca -->
+    <color name="citra_onSurface">#121212</color>
+    
+    <color name="citra_surfaceVariant">#FAFAFA</color>
+    <color name="citra_onSurfaceVariant">#424242</color>
+    <color name="citra_outline">#BDBDBD</color>
+    
+    <color name="citra_inverseOnSurface">#FAFAFA</color>
+    <color name="citra_inverseSurface">#212121</color>
+    <color name="citra_inversePrimary">#FFEE58</color>
+    
+    <color name="citra_shadow">#000000</color>
+    <color name="citra_surfaceTint">#FFD600</color>
+    <color name="citra_outlineVariant">#EEEEEE</color>
+    <color name="citra_scrim">#000000</color>
+
+</resources>
