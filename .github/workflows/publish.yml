@@ -5,7 +5,6 @@ on:
 
 jobs:
   build:
-  # Omit optional warnings and set environment variables
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,17 +17,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Initialize Gradle Wrapper and Build APK
+      - name: Build Android APK from src/android
         run: |
-          gradle wrapper
+          cd src/android
           chmod +x gradlew
           ./gradlew assembleRelease
 
       - name: Upload Real APK
         uses: actions/upload-artifact@v4
         with:
-          name: Aether-Actual-APK
-          path: |
-            build/outputs/apk/release/*.apk
-            app/build/outputs/apk/release/*.apk
-            **/*.apk
+          name: Aether-Android-APK
+          path: src/android/app/build/outputs/apk/release/*.apk
