@@ -13,30 +13,24 @@ on:
         default: 'true'
 
 jobs:
-  nightly:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Android SDK & Build
-        run: |
-          echo "Simulando compilación directa sin scripts externos de GitHub..."
-          mkdir -p build/artifacts
-          echo "Aether APK Placeholder" > build/artifacts/Aether-emu.apk
-      - uses: actions/upload-artifact@v4
         with:
-          name: Aether-Nightly-APK
-          path: build/artifacts/*.apk
+          submodules: recursive
+      
+      - name: Setup Android NDK
+        uses: android-actions/setup-android@v3
 
-  canary:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Android SDK & Build
+      - name: Build Aether
         run: |
-          echo "Simulando compilación directa sin scripts externos de GitHub..."
-          mkdir -p build/artifacts
-          echo "Aether APK Placeholder" > build/artifacts/Aether-emu.apk
-      - uses: actions/upload-artifact@v4
+          mkdir build && cd build
+          cmake .. -DENABLE_QT=OFF -DENABLE_SDL2=OFF -DANDROID=ON
+          make -j$(nproc)
+      
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
-          name: Aether-Canary-APK
-          path: build/artifacts/*.apk
+          name: Aether-Emulator-APK
+          path: build/bin/*.apk
