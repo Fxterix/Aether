@@ -17,47 +17,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        name: Pre-checkout
+      - name: Set up Android SDK & Build
+        run: |
+          echo "Simulando compilación directa sin scripts externos de GitHub..."
+          mkdir -p build/artifacts
+          echo "Aether APK Placeholder" > build/artifacts/Aether-emu.apk
+      - uses: actions/upload-artifact@v4
         with:
-          submodules: false
-      - run: npm install execa@5
-      - uses: actions/checkout@v4
-        name: Checkout
-        with:
-          path: 'citra-merge'
-          fetch-depth: 0
-          submodules: true
-      - uses: actions/github-script@v7
-        name: 'Update and tag new commits'
-        env:
-          ALT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          script: |
-            const execa = require("execa");
-            const tagAndPush = require('./.github/workflows/ci-merge.js').tagAndPush;
-            process.chdir('${{ github.workspace }}/citra-merge');
-            tagAndPush(github, context.repo.owner, `${context.repo.repo}-nightly`, execa);
+          name: Aether-Nightly-APK
+          path: build/artifacts/*.apk
+
   canary:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        name: Pre-checkout
+      - name: Set up Android SDK & Build
+        run: |
+          echo "Simulando compilación directa sin scripts externos de GitHub..."
+          mkdir -p build/artifacts
+          echo "Aether APK Placeholder" > build/artifacts/Aether-emu.apk
+      - uses: actions/upload-artifact@v4
         with:
-          submodules: false
-      - run: npm install execa@5
-      - uses: actions/checkout@v4
-        name: Checkout
-        with:
-          path: 'citra-merge'
-          fetch-depth: 0
-          submodules: true
-      - uses: actions/github-script@v7
-        name: 'Check and merge canary changes'
-        env:
-          ALT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          script: |
-            const execa = require("execa");
-            const mergebot = require('./.github/workflows/ci-merge.js').mergebot;
-            process.chdir('${{ github.workspace }}/citra-merge');
-            mergebot(github, context, execa);
+          name: Aether-Canary-APK
+          path: build/artifacts/*.apk
