@@ -11,7 +11,7 @@ jobs:
         with:
           submodules: recursive
 
-      # PASO CLAVE: Ampliar la memoria Swap para evitar que falle por falta de RAM
+      # Ampliar la memoria Swap para evitar que el servidor se quede sin RAM
       - name: Free Up Disk Space and Setup Swap
         uses: pierotofy/set-swap-space@master
         with:
@@ -36,7 +36,7 @@ jobs:
           cd src/android
           chmod +x gradlew
           export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/25.1.8937393
-          ./gradlew assembleRelease --info
+          ./gradlew :app:assembleRelease --info
 
       - name: Upload Real APK
         uses: actions/upload-artifact@v4
