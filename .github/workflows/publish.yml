@@ -29,6 +29,8 @@ jobs:
           submodules: true
       - uses: actions/github-script@v7
         name: 'Update and tag new commits'
+        env:
+          ALT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           script: |
             const execa = require("execa");
@@ -51,6 +53,8 @@ jobs:
           submodules: true
       - uses: actions/github-script@v7
         name: 'Check and merge canary changes'
+        env:
+          ALT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           script: |
             const execa = require("execa");
