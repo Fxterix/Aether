@@ -20,14 +20,16 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install NDK
-        run: sdkmanager "ndk;25.1.8937393"
+      - name: Accept Licenses and Install NDK
+        run: |
+          yes | sdkmanager --licenses || true
+          sdkmanager "ndk;25.1.8937393" "build-tools;34.0.0"
 
       - name: Build Android APK from src/android
         run: |
           cd src/android
           chmod +x gradlew
-          ./gradlew assembleRelease
+          ./gradlew assembleRelease --stacktrace
 
       - name: Upload Real APK
         uses: actions/upload-artifact@v4
