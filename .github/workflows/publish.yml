@@ -36,7 +36,7 @@ jobs:
           cd src/android
           chmod +x gradlew
           export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/25.1.8937393
-          ./gradlew tasks
+          ./gradlew tasks --all
 
       - name: Upload Real APK
         uses: actions/upload-artifact@v4
