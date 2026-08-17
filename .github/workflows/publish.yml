@@ -17,6 +17,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Setup Android SDK & NDK
+        uses: android-actions/setup-android@v3
+        with:
+          ndk-version: 25.1.8937393
+
       - name: Build Android APK from src/android
         run: |
           cd src/android
