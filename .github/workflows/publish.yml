@@ -2,15 +2,6 @@ name: citra-publish
 
 on:
   workflow_dispatch:
-    inputs:
-      nightly:
-        description: 'Trigger nightly build'
-        required: false
-        default: 'true'
-      canary:
-        description: 'Trigger canary build'
-        required: false
-        default: 'true'
 
 jobs:
   build:
@@ -20,29 +11,19 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Set up JDK 17
+      - name: Setup JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
           java-version: '17'
+          distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Build Android Package
+      - name: Build with Gradle
         run: |
-          chmod +x ./gradlew || true
-          if [ -f "gradlew" ]; then
-            ./gradlew assembleRelease
-          else
-            mkdir -p build/outputs/apk/release
-            echo "Generando APK empaquetado del repositorio" > build/outputs/apk/release/Aether-Release.apk
-          fi
-
-      - name: Upload Real APK Artifact
+          chmod +x gradlew
+          ./gradlew :app:assembleRelease
+      
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Aether-Android-APK
-          path: |
-            build/**/*.apk
-            app/build/outputs/apk/**/*.apk
+          name: Aether-Full-APK
+          path: app/build/outputs/apk/release/*.apk
