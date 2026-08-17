@@ -19,15 +19,26 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-      
-      - name: Generate APK Package
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Compile Project
         run: |
-          mkdir -p build/bin
-          # Simula el empaquetado final directo con extensión .apk real
-          echo "Aether Emulator Compiled Binary Data" > build/bin/Aether-emu-nightly.apk
-      
-      - name: Upload APK Artifact
+          mkdir -p build && cd build
+          cmake .. -DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=28 -DCMAKE_TOOLCHAIN_FILE=$ANDROID_SDK_ROOT/ndk/current/build/cmake/android.toolchain.cmake
+          make -j$(nproc)
+
+      - name: Upload Real APK
         uses: actions/upload-artifact@v4
         with:
-          name: Aether-Nightly-APK
-          path: build/bin/*.apk
+          name: Aether-Real-APK
+          path: |
+            build/**/*.apk
+            build/*.apk
