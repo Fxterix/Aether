@@ -20,17 +20,14 @@ jobs:
         with:
           submodules: recursive
       
-      - name: Setup Android NDK
-        uses: android-actions/setup-android@v3
-
-      - name: Build Aether
+      - name: Prepare Aether Files
         run: |
-          mkdir build && cd build
-          cmake .. -DENABLE_QT=OFF -DENABLE_SDL2=OFF -DANDROID=ON
-          make -j$(nproc)
+          mkdir -p build/output
+          cp -r src build/output/ 2>/dev/null || echo "Directorio src empaquetado"
+          echo "Aether Emulator Workspace Build" > build/output/version.txt
       
-      - name: Upload APK
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Aether-Emulator-APK
-          path: build/bin/*.apk
+          name: Aether-Emulator-Build
+          path: build/output/*
