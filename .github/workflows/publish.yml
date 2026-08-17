@@ -1,7 +1,14 @@
 name: citra-publish
 
 on:
+  schedule:
+    - cron: '7 0 * * *'
   workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Tipo de compilacion (canary/nightly)'
+        required: true
+        default: 'canary'
 
 jobs:
   build:
@@ -11,7 +18,7 @@ jobs:
         with:
           submodules: recursive
 
-      # Ampliar la memoria Swap para evitar fallos por falta de RAM
+      # Ampliar la memoria Swap para evitar que falle por falta de RAM durante la compilación en C++
       - name: Free Up Disk Space and Setup Swap
         uses: pierotofy/set-swap-space@master
         with:
@@ -31,15 +38,15 @@ jobs:
           yes | sdkmanager --licenses || true
           sdkmanager "ndk;25.1.8937393" "build-tools;34.0.0"
 
-      - name: Build Android APK with Info Log
+      - name: Build Android APK
         run: |
           cd src/android
           chmod +x gradlew
           export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/25.1.8937393
-          ./gradlew :app:assembleRelease --info
+          ./gradlew assembleCanary --info
 
-      - name: Upload Real APK
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Aether-Android-APK
-          path: src/android/app/build/outputs/apk/release/*.apk
+          path: src/android/app/build/outputs/apk/**/*.apk
