@@ -25,11 +25,12 @@ jobs:
           yes | sdkmanager --licenses || true
           sdkmanager "ndk;25.1.8937393" "build-tools;34.0.0"
 
-      - name: Build Android APK from src/android
+      - name: Build Android APK with Info Log
         run: |
           cd src/android
           chmod +x gradlew
-          ./gradlew assembleRelease --stacktrace
+          export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/25.1.8937393
+          ./gradlew assembleRelease --info
 
       - name: Upload Real APK
         uses: actions/upload-artifact@v4
